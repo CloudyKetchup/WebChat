@@ -1,0 +1,31 @@
+body {
+
+}
+#main-container {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+	background-image: url("https://media.idownloadblog.com/wp-content/uploads/2017/02/alex-muench-minimalist-ice-landscae-wallpaper-5120x2880.png");
+   	background-size: 100%;
+   	background-attachment: fixed;
+    background-size: cover;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 90px;
+	color: #242633;
+	font-size: 20pt;
+	font-family: Regular;
+}
+
+/* label focus color */
+.input-field input:focus + label {
+	color: #242633 !important;
+}
+/* label underline focus color */
+.row .input-field input:focus {
+	color: #242633 !important;
+	border-bottom: 1px solid #242633 !important;
+	box-shadow: 0 1px 0 0 #242633 !important
+}
