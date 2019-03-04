@@ -1,5 +1,5 @@
 body {
-
+	font-family: 'Roboto', sans-serif;
 }
 #main-container {
 	width: 100%;
@@ -16,9 +16,7 @@ body {
 	line-height: 90px;
 	color: #242633;
 	font-size: 20pt;
-	font-family: Regular;
 }
-
 /* label focus color */
 .input-field input:focus + label {
 	color: #242633 !important;

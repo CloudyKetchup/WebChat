@@ -3,12 +3,14 @@
 <head>
   <title>Registration</title>
   {% load static %}
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <link rel="stylesheet" type="text/css" href="{% static 'main/css/account.css' %}">
 <body>
-	<div id="main-container">
+	<div id="main-container" style="font-family: 'Roboto', sans-serif;">
 		Register
 		<form action='register' method='POST' id="registraion-form">
 			{% csrf_token %}
