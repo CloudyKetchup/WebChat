@@ -3,6 +3,7 @@
 <head>
   <title>Registration</title>
   {% load static %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -12,20 +13,24 @@
 <body>
 	<div id="main-container" style="font-family: 'Roboto', sans-serif;">
 		Register
+		<form action='/' method='POST'>
+			{% csrf_token %}
+			<button class="waves-effect hoverable waves-light blue-grey darken-4 btn" style=";border-radius: 5px;"><i class="fa fa-home"></i></button>
+		</form>
 		<form action='register' method='POST' id="registraion-form">
 			{% csrf_token %}
 			<div class="row">
 		        <div class="input-field col s4 offset-s4">
-		          	<input placeholder="Email" id="email" name="email" type="email" class="validate">
+		          	<input placeholder="Email" id="email" name="email" type="email" class="validate center-align">
 		        </div>
 		        <div class="input-field col s4 offset-s4">
-		        	<input placeholder="Name" id="first_name" type="text" class="validate">
+		        	<input placeholder="Name" id="first_name" type="text" class="validate center-align">
 		        </div>
 		        <div class="input-field col s4 offset-s4">
-		          	<input placeholder="Password" id="password" type="password" class="validate">
+		          	<input placeholder="Password" id="password" type="password" class="validate center-align">
 		        </div>
 		    </div>
-			<button class="waves-effect hoverable waves-light blue-grey btn" id="registerButton">Register</button>
+			<button class="waves-effect hoverable waves-light blue-grey darken-4 btn" id="registerButton">Register</button>
 		</form>
 	</div>
 </body>

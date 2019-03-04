@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'background_task',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
 ]
@@ -77,6 +78,7 @@ DATABASES = {
     }
 }
 
+CELERY_BROCKER_URL = ""
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
