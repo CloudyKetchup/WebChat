@@ -1,37 +1,41 @@
 var rect = 0; 
 
-function readInput(){
-	var input = document.getElementById('messageArea');
-	var message = document.createElement("p");
-	var string = input.value;
-	if(string != ""){
-		document.body.children[1].appendChild(message);
-		
-		message.setAttribute("class","message");
-		message.innerHTML = string;
+chatSocket.onmessage = function(e) {
+    var data = JSON.parse(e.data);
+    var message = data['message'];
+    renderMessage(message)
+    // document.querySelector('#chat-log').value += (message + '\n');
+};
 
-		message.style.top = rect+"px";
-		var p = $(".message");
-		var position = p.position();
-		rect += position.top+45;
-		document.getElementById("messageArea").value = '';
-		console.log(position.top);
-	}
-}
-function readInputkey(){
-	var input = document.getElementById('messageArea');
-	var message = document.createElement("p");
-	var string = input.value;
-	if(string != "" && event.keyCode == 13){
-		document.body.children[1].appendChild(message);
-		
-		message.setAttribute("class","message");
-		message.innerHTML = string;
+chatSocket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
 
-		message.style.top = rect+"px";
-		var p = $(".message");
-		var position = p.position();
-		rect += position.top+45;
-		console.log(position.top);
-	}
+document.querySelector('#chat-message-input').onkeyup = function(e) {
+    if (e.keyCode === 13) {  // enter, return
+        document.querySelector('#chat-message-submit').click();
+    }
+};
+
+document.querySelector('#chat-message-submit').onclick = function(e) {
+    var messageInputDom = document.querySelector('#chat-message-input');
+    var message = messageInputDom.value;
+    chatSocket.send(JSON.stringify({
+        'message': message
+    }));
+
+    messageInputDom.value = '';
+};
+
+function renderMessage(message){
+	var messageBody = document.createElement("p");
+	document.body.children[1].appendChild(messageBody);
+		
+	messageBody.setAttribute("class","message");
+	messageBody.innerHTML = message;
+
+	messageBody.style.top = rect+"px";
+	var p = $(".message");
+	var position = p.position();
+	rect += position.top+45;
 }

@@ -4,9 +4,7 @@
 	<title>Chat</title>
 	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %} ">
-	  <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
@@ -21,8 +19,7 @@
 			</form>
 		</div>
 	</div>
-	<div style="width: 91%;height: 90%;	overflow: auto;position: absolute;left: 130px;opacity: transparent;">
-	</div>	
+	<div id="chat-log"></div>
 </body>
 <script src="{% static 'main/javascript/index.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

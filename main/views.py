@@ -1,8 +1,7 @@
-import requests,socket
-from threading import Thread
+import json
+import requests
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
-import json
 
 # user data
 name = None
@@ -14,8 +13,8 @@ def homepage(request):
     return render(request, 'home.htm')
 
 
-def room(request,room_name):
-	return render(request, 'room.html', {
+def room(request, room_name):
+    return render(request, 'room.html', {
         'room_name_json': mark_safe(json.dumps(room_name))
     })
 
@@ -47,7 +46,7 @@ def register(request):
         except Exception as e:
             print(e)
     # send back to registration page
-    return render(request, 'registration.htm')
+    return redirect('main:register')
 
 
 # will send login request to server

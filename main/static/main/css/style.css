@@ -30,6 +30,47 @@ body{
 	width: 10%;
 	position: absolute;
 }
+#chat-log {
+	background: transparent;
+	outline: none;	
+	width: 90%;
+	height: 85%;
+	overflow: auto;
+	position: absolute;
+	left: 130px;
+	opacity: transparent;
+}
+#chat-message-input {
+	background: transparent;
+	bottom: 10px;
+	width: 80%;
+	height: 40px;
+	max-width: 80%;
+	min-width: 100px;
+	color: #242633;
+	border: none;
+	outline: none;
+	border-bottom: 2px solid #242633 !important;
+	position: absolute;
+	box-sizing: border-box;
+	margin-right: 10%;
+	margin-left: 12%;
+}
+#chat-message-submit {
+	background: #242633;
+	width: 9%;
+	height: 40px;
+	color: #c7dbdc;
+	border: none;
+	position: absolute;
+	right:    10px;
+	bottom:   10px;
+	border-radius: 5px; 
+}
+#chat-message-submit:hover {
+	transition: 1s;
+	background: #0e0f14;
+}
 #messageArea {
 	background: transparent;
 	bottom: 10px;
