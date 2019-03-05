@@ -1,6 +1,8 @@
 import requests,socket
 from threading import Thread
 from django.shortcuts import render, redirect
+from django.utils.safestring import mark_safe
+import json
 
 # user data
 name = None
@@ -8,16 +10,14 @@ email = None
 password = None
 
 
-# def listen_to_messages():
-# 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# 	s.connect('localhost',12000)
-# 	while True:
-# 		string = ""
-# 		chunk = s.recv()
-
-
 def homepage(request):
     return render(request, 'home.htm')
+
+
+def room(request,room_name):
+	return render(request, 'room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name))
+    })
 
 
 # will send to registration page,or will send registration request to server

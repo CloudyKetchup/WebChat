@@ -1,4 +1,5 @@
 var rect = 0; 
+
 function readInput(){
 	var input = document.getElementById('messageArea');
 	var message = document.createElement("p");
