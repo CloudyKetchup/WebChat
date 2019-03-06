@@ -41,12 +41,11 @@ def register(request):
                 print(r.text)
             else:
                 login(request)
-            # login(request,name,email,password)
             return redirect('main:homepage')
         except Exception as e:
             print(e)
     # send back to registration page
-    return redirect('main:register')
+    return render(request,'registration.htm')
 
 
 # will send login request to server
@@ -61,6 +60,8 @@ def login(request):
     try:
         r = requests.post('http://192.168.0.14:3000/login', json_request)
         if r.text == name + " Login Succes":
+            consumers.User.name = name
+            print(consumers.User.name)
             return redirect('main:homepage')
         else:
             print("Login Fail")

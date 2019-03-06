@@ -30,7 +30,7 @@ body{
 	width: 10%;
 	position: absolute;
 }
-#chat-log {
+#chat-box {
 	background: transparent;
 	outline: none;	
 	width: 90%;
@@ -94,19 +94,4 @@ body{
 	color: #c7dbdc;
 	position: absolute;
 	text-align: center;
-}
-#sendButton{
-	background: #242633;
-	width: 9%;
-	height: 40px;
-	color: #c7dbdc;
-	border: none;
-	position: absolute;
-	right:    10px;
-	bottom:   10px;
-	border-radius: 5px; 
-}
-#sendButton:hover{
-	transition: 1s;
-	background: #0e0f14;
 }

@@ -4,6 +4,9 @@ import json
 
 
 class User(WebsocketConsumer):
+    name = ""
+    rooms = []
+
     def connect(self):
         #get room name and group
         self.room_name = self.scope['url_route']['kwargs']['room_name']
