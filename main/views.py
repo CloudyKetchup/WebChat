@@ -19,7 +19,7 @@ def room(request, room_name):
     })
 
 
-# will send to registration page,or will send registration request to server
+# will send to registration page or registration request to server
 def register(request):
     if request.method == "POST":
         # data from fields
@@ -50,21 +50,23 @@ def register(request):
 
 # will send login request to server
 def login(request):
-    # json that will be send to server for login procedure
-    json_request = {
-        # put data
-        "email": str(request.POST.get('email')),
-        "password": str(request.POST.get('password'))
-    }
-    # send login request to server
-    try:
-        r = requests.post('http://192.168.0.14:3000/login', json_request)
-        if r.text == name + " Login Succes":
-            consumers.User.name = name
-            print(consumers.User.name)
-            return redirect('main:homepage')
-        else:
-            print("Login Fail")
-    except Exception as e:
-        print(e)
-    return redirect('main:register')
+    if request == "POST":
+        # json that will be send to server for login procedure
+        json_request = {
+            # put data
+            "email": str(request.POST.get('email')),
+            "password": str(request.POST.get('password'))
+        }
+        # send login request to server
+        try:
+            r = requests.post('http://192.168.0.14:3000/login', json_request)
+            if r.text == name + " Login Succes":
+                consumers.User.name = name
+                print(consumers.User.name)
+                return redirect('main:homepage')
+            else:
+                print("Login Fail")
+        except Exception as e:
+            print(e)
+    #send back to login
+    return render(request,'login_page.htm')
