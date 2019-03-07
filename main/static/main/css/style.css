@@ -1,12 +1,6 @@
 body{
 	background: black;
-	padding: 5px;
-}
-#accountButton{
-	position: absolute;
-	top: 8px;
-	left: 8px;
-	border-radius: 3px;
+	padding;
 	height: 5%;	
 	width: 80%;
 	border: none;
@@ -20,7 +14,13 @@ body{
 	background: url("https://wallpaperaccess.com/full/99797.png");
 	width: 100%;
 	height: 100%;
-	top: 0;
+	top: 0;: 5px;
+}
+#accountButton{
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	border-radius: 3px
 	left: 0;
 	position: absolute;
 }
@@ -89,7 +89,6 @@ body{
 }
 .message {
 	background: #242633;
-	right: 30px;
 	padding: 10px;
 	color: #c7dbdc;
 	position: absolute;

@@ -10,7 +10,7 @@
 <body>
 	<div id="mainContainer">
 		<form action='send_message'>
-			<button id="sendButton" onclick="readInput()">Send</button>
+			<button id="login" onclick="readInput()">Send</button>
 		</form>
 		<input type="" name="messages" id="messageArea" onkeydown="readInputkey()">
 		<div id="roomsContainer">
@@ -19,7 +19,6 @@
 			</form>
 		</div>
 	</div>
-	<div id="chat-log"></div>
 </body>
 <script src="{% static 'main/javascript/index.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

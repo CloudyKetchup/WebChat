@@ -1,10 +1,11 @@
 import json
 import requests
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
 # user data
-name = None
+name = "maxim"
 email = None
 password = None
 
@@ -14,8 +15,10 @@ def homepage(request):
 
 
 def room(request, room_name):
+    print(mark_safe(json.dumps(name)))
     return render(request, 'room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name))
+        'room_name_json': mark_safe(json.dumps(room_name)),
+        'username': mark_safe(json.dumps(name))
     })
 
 
@@ -50,7 +53,7 @@ def register(request):
 
 # will send login request to server
 def login(request):
-    if request == "POST":
+    if request.method == "POST":
         # json that will be send to server for login procedure
         json_request = {
             # put data
@@ -59,13 +62,15 @@ def login(request):
         }
         # send login request to server
         try:
-            r = requests.post('http://192.168.0.14:3000/login', json_request)
-            if r.text == name + " Login Succes":
-                consumers.User.name = name
-                print(consumers.User.name)
-                return redirect('main:homepage')
+            r = requests.post('http://localhost:3000/login', json_request)
+            # server response after request
+            if r.text != "Login success":
+                print(r.text)
             else:
-                print("Login Fail")
+                return render(request, 'room.html', {
+                    'room_name_json': mark_safe(json.dumps("lobby")),
+                    'username': mark_safe(json.dumps(name))
+                })
         except Exception as e:
             print(e)
     #send back to login

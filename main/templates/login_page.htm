@@ -3,6 +3,7 @@
 <head>
   <title>Login</title>
   {% load static %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -16,7 +17,7 @@
 			{% csrf_token %}
 			<button class="waves-effect hoverable waves-light blue-grey darken-4 btn" style=";border-radius: 5px;"><i class="fa fa-home"></i></button>
 		</form>
-		<form action='register' method='POST' id="registraion-form">
+		<form action='login' method='POST' id="registraion-form">
 			{% csrf_token %}
 			<div class="row">
 		        <div class="input-field col s4 offset-s4">
