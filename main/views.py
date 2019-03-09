@@ -2,11 +2,7 @@ import json
 import requests
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
-
-# user data
-name = None
-email = None
-password = None
+from main.models import User
 
 
 def homepage(request):
@@ -15,15 +11,14 @@ def homepage(request):
 
 def room(request, room_name):
     return render(request, 'room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name)),
-        'username': mark_safe(json.dumps(name))
+        'room_name_json': room_name,
+        'username': mark_safe(json.dumps(User.name))
     })
 
 
 # will send to registration page or registration request to server
 def register(request):
     if request.method == "POST":
-        print(name)
         # json that will be send to server for registration procedure
         json_request = {
             # put all data inside
@@ -59,12 +54,15 @@ def login(request):
         try:
             r = requests.post('http://localhost:3000/login', json_request)
             # server response after request
-            if r.text != "Login success":
-                print(r.text)
+            response = r.json()
+            response_message = response['message']
+            User.name = response['name']
+            if response_message != "Login success":
+                print(response_message)
             else:
                 return render(request, 'room.html', {
                     'room_name_json': mark_safe(json.dumps("lobby")),
-                    'username': mark_safe(json.dumps(name))
+                    'username': mark_safe(json.dumps(User.name))
                 })
         except Exception as e:
             print(e)
