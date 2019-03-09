@@ -1,21 +1,19 @@
 import json
 import requests
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
 # user data
-name = "maxim"
+name = None
 email = None
 password = None
 
 
 def homepage(request):
-    return render(request, 'home.htm')
+    return render(request, 'login_page.htm')
 
 
 def room(request, room_name):
-    print(mark_safe(json.dumps(name)))
     return render(request, 'room.html', {
         'room_name_json': mark_safe(json.dumps(room_name)),
         'username': mark_safe(json.dumps(name))
@@ -25,16 +23,13 @@ def room(request, room_name):
 # will send to registration page or registration request to server
 def register(request):
     if request.method == "POST":
-        # data from fields
-        name = str(request.POST.get('username'))
-        email = str(request.POST.get('email'))
-        password = str(request.POST.get('password'))
+        print(name)
         # json that will be send to server for registration procedure
         json_request = {
             # put all data inside
-            "email": email,
-            "name": name,
-            "password": password
+            "email": str(request.POST.get('email')),
+            "name": str(request.POST.get('username')),
+            "password": str(request.POST.get('password'))
         }
         # send registration request to server
         try:
@@ -48,7 +43,7 @@ def register(request):
         except Exception as e:
             print(e)
     # send back to registration page
-    return render(request,'registration.htm')
+    return render(request, 'registration.htm')
 
 
 # will send login request to server
@@ -73,5 +68,5 @@ def login(request):
                 })
         except Exception as e:
             print(e)
-    #send back to login
-    return render(request,'login_page.htm')
+    # send back to login
+    return render(request, 'login_page.htm')

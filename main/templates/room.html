@@ -10,21 +10,16 @@
 <body>
     <div id="mainContainer">
         <button id="chat-message-submit">Send</button>
-        <input type="" name="messages" id="chat-message-input">
-        <div id="roomsContainer">
-            <form action='get_username' method='GET'>
-                <p id="user-name"></p>
-            </form>
-        </div>
+        <label for="chat-message-input"></label><input name="messages" id="chat-message-input">
+        <div id="roomsContainer"></div>
     </div>
     <div id="chat-box"></div>  
 </body>
-<script src="{% static 'main/javascript/reconnecting-websocket.js' %}"></script>
 <script>
-    var roomName = {{ room_name_json }};
-    var username = {{ username }};
+    let roomName = {{ room_name_json }};
+    let username = {{ username }};
 
-    var chatSocket = new WebSocket(
+    let chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/main/' + roomName + '/');
 </script>
