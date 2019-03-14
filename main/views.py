@@ -64,10 +64,6 @@ def login(request):
                 User.rooms.append(room)
             if response_message == "Login success":
                 return redirect('main:room',room_name='chat')
-                # return render(request, 'room.html', {
-                #     'room_name_json': 'chat',
-                #     'username': mark_safe(json.dumps(User.name))
-                # })
             else:
                 return login(request)
         except Exception as e:
