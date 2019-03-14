@@ -27,3 +27,4 @@ class User(models.Model):
     name = None
     email = None
     password = None
+    rooms = []
