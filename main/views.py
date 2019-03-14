@@ -6,7 +6,11 @@ from main.models import User
 
 
 def homepage(request):
-    return render(request, 'login_page.htm')
+    if User.name == None:
+        login(request)
+    else:
+        render(request,'room.html')
+    return redirect('main:login')
 
 
 def room(request, room_name):
@@ -31,18 +35,17 @@ def register(request):
             r = requests.post('http://localhost:3000/register', json_request)
             # server response after request
             if r.text != "Registration success":
-                print(r.text)
+                render(request,'registration.htm')
             else:
-                login(request)
-            return redirect('main:homepage')
+                return login(request)
         except Exception as e:
             print(e)
     # send back to registration page
-    return render(request, 'registration.htm')
+    return render(request,'registration.htm')
 
 
-# will send login request to server
 def login(request):
+    # login button action
     if request.method == "POST":
         # json that will be send to server for login procedure
         json_request = {
@@ -57,14 +60,16 @@ def login(request):
             response = r.json()
             response_message = response['message']
             User.name = response['name']
-            if response_message != "Login success":
-                print(response_message)
+            for room in response['rooms']:
+                User.rooms.append(room)
+            if response_message == "Login success":
+                return redirect('main:room',room_name='chat')
+                # return render(request, 'room.html', {
+                #     'room_name_json': 'chat',
+                #     'username': mark_safe(json.dumps(User.name))
+                # })
             else:
-                return render(request, 'room.html', {
-                    'room_name_json': mark_safe(json.dumps("lobby")),
-                    'username': mark_safe(json.dumps(User.name))
-                })
+                return login(request)
         except Exception as e:
             print(e)
-    # send back to login
-    return render(request, 'login_page.htm')
+    return render(request,'login_page.htm')
