@@ -6,9 +6,7 @@ from main.models import User
 
 
 def homepage(request):
-    if User.name == None:
-        return login(request)
-    else:
+    if User.name != None:
         return redirect('main:room',room_name='chat')
     return redirect('main:login')
 
@@ -38,7 +36,7 @@ def register(request):
             if r.text != "Registration success":
                 render(request,'registration.htm')
             else:
-                return login(request)
+                return login_request(request)
         except Exception as e:
             print(e)
     # send back to registration page
@@ -49,24 +47,27 @@ def login(request):
     # login button action
     if request.method == "POST":
         # json that will be send to server for login procedure
-        json_request = {
-            # put data
-            "email": str(request.POST.get('email')),
-            "password": str(request.POST.get('password'))
-        }
-        # send login request to server
-        try:
-            r = requests.post('http://localhost:3000/login', json_request)
-            # server response after request
-            response = r.json()
-            response_message = response['message']
-            User.name = response['name']
-            for room in response['rooms']:
-                User.rooms.append(room)
-            if response_message == "Login success":
-                return redirect('main:room',room_name='chat')
-            else:
-                return login(request)
-        except Exception as e:
-            print(e)
+        login_request(request)
     return render(request,'login_page.htm')
+
+
+def login_request(request):
+    json_request = {
+        "email": str(request.POST.get('email')),
+        "password": str(request.POST.get('password'))
+    }
+    # send login request to server
+    try:
+        r = requests.post('http://localhost:3000/login', json_request)
+        # server response after request
+        response = r.json()
+        response_message = response['message']
+        User.name = response['name']
+        for room in response['rooms']:
+            User.rooms.append(room)
+        if response_message == "Login success":
+            return redirect('main:room',room_name='chat')
+        else:
+            return login(request)
+    except Exception as e:
+        print(e)

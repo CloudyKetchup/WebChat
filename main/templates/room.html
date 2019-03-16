@@ -9,13 +9,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
-    <div id="mainContainer">
+    <div id="main-container">
         <button class="waves-effect hoverable waves-light btn"
         id="chat-message-submit"><i class="fa fa-send"></i></button>
         <label for="chat-message-input"></label><input name="messages" id="chat-message-input">
-        <div id="rooms-container"></div>
+        <div id="rooms-container">
+            <button class="waves-effect hoverable btn" id="create-room"><i class="fa fa-plus"></i></button>
+        </div>
     </div>
-    <div id="chat-box"></div>  
+    <div id="chat-box"></div>
+    <div id="create-room-dialog" class="modal" style="background-color: #fefefe;">
+        <div id="create-room-header" style="background-color: #fefefe; height: 14% ;">
+            <button class="btn" id="close" onclick="closeDialog()"><i class="fa fa-close"></i></button>
+            <p id="create-room-title">Create Chat</p> 
+        </div>
+        <form method='POST' id="registraion-form">
+            {% csrf_token %}
+            <div class="row">
+                <div class="input-field col s4 offset-s4">
+                    <input placeholder="Room name" id="room-name-field" name="room-name" class="left-align">
+                </div>
+            </div>
+            <div id="added-chat-members"></div>
+        </form>
+        <div id="create-room-footer">
+            <button class="waves-effect blue-grey darken-4 btn" id="add-room-members">Add chat member</button>
+            <button class="waves-effect blue-grey darken-4 btn" id="create-room-submit">Create</button>
+        </div>
+    </div>
 </body>
 <script>
     let roomName = {{ room_name_json }};

@@ -2,7 +2,10 @@ var rect = 0;
 var roomsSpacing = 100;
 var roomsList = [];
 
-if (!isEmptyObject(rooms)) {
+if (isEmptyObject(rooms)) {
+    var emptyList = document.createElement("p");
+    emptyList.setAttribute("");
+}else{
     //get all romms from rooms json
     for (var room in rooms) {
         roomsList.push(room);
@@ -10,7 +13,7 @@ if (!isEmptyObject(rooms)) {
     //generate rooms selectors for side menu
     for (room in roomsList) {
         var room = document.createElement("button");
-        room.setAttribute("class","room-button")
+        room.setAttribute("class","room-button");
         room.setAttribute("name", type);
         room.innerHTML = room['name'].toString();
 
@@ -64,10 +67,10 @@ function renderMessage(message,author){
 	messageBody.setAttribute("class","message");
 	messageBody.innerHTML = message + " | " + author;
 	if (author === username) {
-    	messageBody.style.right = '5px';
+    	messageBody.style.right = '10px';
     }
     else{	
-    	messageBody.style.left = '5px';
+    	messageBody.style.left = '10px';
     }
 	
 	messageBody.style.top = rect+"px";
@@ -76,5 +79,17 @@ function renderMessage(message,author){
 	rect += position.top+50;
 }
 function isEmptyObject(obj){
-  return (Object.getOwnPropertyNames(obj).length === 0);
+    return (Object.getOwnPropertyNames(obj).length === 0);
+}
+var dialog = document.getElementById('create-room-dialog');
+
+document.getElementById("create-room").onclick = function() {
+    dialog.style.display = "block";
+}
+document.getElementById("add-room-members").onclick = function() {
+
+}
+
+function closeDialog() {
+    dialog.style.display = "none";
 }
