@@ -1,5 +1,25 @@
-var rect = 0; 
+var rect = 0;
+var roomsSpacing = 100;
+var roomsList = [];
 
+if (!isEmptyObject(rooms)) {
+    //get all romms from rooms json
+    for (var room in rooms) {
+        roomsList.push(room);
+    }
+    //generate rooms selectors for side menu
+    for (room in roomsList) {
+        var room = document.createElement("button");
+        room.setAttribute("class","room-button")
+        room.setAttribute("name", type);
+        room.innerHTML = room['name'].toString();
+
+        var sideMenu = document.getElementById("rooms-container");
+        sideMenu.appendChild(room);
+        room.style.top = roomsSpacing+"px";
+        roomsSpacing += 50;
+    }
+}
 chatSocket.onmessage = function(e) {
     var data = JSON.parse(e.data);
 
@@ -54,4 +74,7 @@ function renderMessage(message,author){
 	var p = $(".message");
 	var position = p.position();
 	rect += position.top+50;
+}
+function isEmptyObject(obj){
+  return (Object.getOwnPropertyNames(obj).length === 0);
 }

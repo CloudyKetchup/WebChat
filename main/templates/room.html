@@ -3,20 +3,23 @@
 <head>
     <title>Chat</title>
     {% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %} ">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
     <div id="mainContainer">
-        <button id="chat-message-submit">Send</button>
+        <button class="waves-effect hoverable waves-light btn"
+        id="chat-message-submit"><i class="fa fa-send"></i></button>
         <label for="chat-message-input"></label><input name="messages" id="chat-message-input">
-        <div id="roomsContainer"></div>
+        <div id="rooms-container"></div>
     </div>
     <div id="chat-box"></div>  
 </body>
 <script>
     let roomName = {{ room_name_json }};
+    let rooms = {{ rooms }};
     let username = {{ username }};
 
     let chatSocket = new WebSocket(

@@ -7,15 +7,16 @@ from main.models import User
 
 def homepage(request):
     if User.name == None:
-        login(request)
+        return login(request)
     else:
-        render(request,'room.html')
+        return redirect('main:room',room_name='chat')
     return redirect('main:login')
 
 
 def room(request, room_name):
     return render(request, 'room.html', {
-        'room_name_json': room_name,
+        'room_name_json': mark_safe(json.dumps(room_name)),
+        'rooms':User.rooms,
         'username': mark_safe(json.dumps(User.name))
     })
 
