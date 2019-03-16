@@ -24,11 +24,23 @@ body{
 	left: 0;
 	position: absolute;
 }
-#roomsContainer{
+#rooms-container{
 	background: #242633;
 	height: 100%;
 	width: 10%;
 	position: absolute;
+}
+.room-button {
+	width: 100%;
+	height: 50px;
+	color: #c7dbdc;
+	border: none;
+	outline: none;
+	background-color: #242633;
+}
+.room-button:hover {
+	transition: 1s;
+	background-color: #1b1c26;
 }
 #chat-box {
 	background: transparent;
@@ -42,7 +54,7 @@ body{
 }
 #chat-message-input {
 	background: transparent;
-	bottom: 10px;
+	bottom: 1%;
 	width: 80%;
 	height: 40px;
 	max-width: 80%;
@@ -58,14 +70,14 @@ body{
 }
 #chat-message-submit {
 	background: #242633;
-	width: 9%;
+	width: 6%;
 	height: 40px;
 	color: #c7dbdc;
 	border: none;
 	position: absolute;
-	right:    10px;
-	bottom:   10px;
-	border-radius: 5px; 
+	right:    1%;
+	bottom:   2%;
+	border-radius: 3px; 
 }
 #chat-message-submit:hover {
 	transition: 1s;

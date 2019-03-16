@@ -17,13 +17,44 @@ body {
 	color: #242633;
 	font-size: 20pt;
 }
-/* label focus color */
 .input-field input:focus + label {
 	color: #242633 !important;
 }
-/* label underline focus color */
 .row .input-field input:focus {
 	color: #242633 !important;
 	border-bottom: 1px solid #242633 !important;
 	box-shadow: 0 1px 0 0 #242633 !important
+}
+p{
+	font-size:18px;
+  	position: absolute;
+  	bottom:13%;
+  	left: 50%;
+  	transform: translate(-50%);
+}
+
+a{
+  	display: block;
+  	height:65px;
+  	color: #242633;
+  	text-decoration: none;
+  	position: relative;
+}
+a:hover {
+	color: white;
+}
+a::after{
+  	content: "";
+  	background: #263238;
+  	border-radius:2px;
+	mix-blend-mode: exclusion;
+  	width: calc(100% + 20px);
+	height: 4px;
+  	position: absolute;
+  	bottom: -4px;
+  	left: -10px;
+	transition: all .1s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+a:hover::after{
+	height: calc(60% + 8px)
 }
