@@ -47,7 +47,7 @@ def login(request):
     # login button action
     if request.method == "POST":
         # json that will be send to server for login procedure
-        login_request(request)
+        return login_request(request)
     return render(request,'login_page.htm')
 
 
