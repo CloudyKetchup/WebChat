@@ -1,5 +1,4 @@
 body{
-	padding;
 	height: 100%;	
 	width: 100%;
 	border: none;
@@ -37,24 +36,48 @@ body{
 	transform: translate(-30%, -50%);
 	box-shadow: none!important;
 }
-#add-chat-members {
-	left: 45%;
-	padding-bottom: 0px;
+
+#add-room-members {
+	margin-left: 41%;
+	position: relative;
 }
+
 #create-room-footer {
 	height: 30%;
 	width: 100%;
 	bottom: 0px;
  	position: absolute;
 }
+
 #add-room-members {
-	margin-left: 37%;
+	margin-left: 41%;
 	position: absolute;
 }
+
 #create-room-submit {
-	bottom: 10px;
-	left: 43%;
-	position: absolute;
+	margin-left: 44%;
+	position: relative;
+	top: 45%;
+}
+
+#added-chat-members {
+	width: 100%;
+}
+
+#members {
+	color: #242633;
+	text-align: center;
+
+}
+
+.modal {
+	background-color: #fefefe;
+	display: none;
+	top: 10%;
+	width: 50%;
+	height: 50%;
+	animation-name: animatetop;
+	animation-duration: 0.2s;
 }
 #chat-message-input {
 	background: transparent;
@@ -91,6 +114,10 @@ body{
 	outline: none;
 	border: 1px solid #242633;
 }
+.user-email-field {
+	outline: none;
+	border: 1px solid #242633;	
+}
 .input-field input:focus + label {
 	color: #242633 !important;
 }
@@ -122,14 +149,6 @@ body{
 	border-radius: 5px;
 	position: absolute;
 	text-align: center;
-}
-.modal {
-  	display: none;
-  	top: 10%;
-  	width: 30%;
-  	height: 50%; 
-  	animation-name: animatetop;
-  	animation-duration: 0.2s;
 }
 #create-room-title {
 	color: white;

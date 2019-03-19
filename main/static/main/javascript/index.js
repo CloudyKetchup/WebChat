@@ -1,23 +1,23 @@
-var rect = 0;
-var roomsSpacing = 100;
-var roomsList = [];
+let rect = 0;
+let roomsSpacing = 100;
+let roomsList = [];
+let room;
 
 if (isEmptyObject(rooms)) {
-    var emptyList = document.createElement("p");
-    emptyList.setAttribute("");
+    const emptyList = document.createElement("p");
 }else{
-    //get all romms from rooms json
-    for (var room in rooms) {
+    //get all rooms from rooms json
+    for (room in rooms) {
         roomsList.push(room);
     }
     //generate rooms selectors for side menu
     for (room in roomsList) {
-        var room = document.createElement("button");
+        room = document.createElement("button");
         room.setAttribute("class","room-button");
         room.setAttribute("name", type);
         room.innerHTML = room['name'].toString();
 
-        var sideMenu = document.getElementById("rooms-container");
+        let sideMenu = document.getElementById("rooms-container");
         sideMenu.appendChild(room);
         room.style.top = roomsSpacing+"px";
         roomsSpacing += 50;
@@ -39,7 +39,7 @@ chatSocket.onclose = function(e) {
 };
 
 chatSocket.onopen = function(e) {
-    chatSocket.send(JSON.stringify({'command': 'fetch_messages' }));
+    chatSocket.send(JSON.stringify({'command': 'fetch_messages'}));
 };
 
 document.querySelector('#chat-message-input').onkeyup = function(e) {
@@ -49,19 +49,18 @@ document.querySelector('#chat-message-input').onkeyup = function(e) {
 };
 
 document.querySelector('#chat-message-submit').onclick = function(e) {
-    var messageInputDom = document.querySelector('#chat-message-input');
-    var message = messageInputDom.value;
+    var input = document.querySelector('#chat-message-input');
+    var message = input.value;
     chatSocket.send(JSON.stringify({
         'command': 'new_message',
         'message': message,
         'from': username
     }));
-
-    messageInputDom.value = '';
+    input.value = '';
 };
 
 function renderMessage(message,author){
-	var messageBody = document.createElement("p");
+	let messageBody = document.createElement("p");
 	document.body.children[1].appendChild(messageBody);
 
 	messageBody.setAttribute("class","message");
@@ -74,22 +73,30 @@ function renderMessage(message,author){
     }
 	
 	messageBody.style.top = rect+"px";
-	var p = $(".message");
-	var position = p.position();
-	rect += position.top+50;
+	let p = $(".message");
+	let position = p.position();
+	rect += position.top + 50;
 }
+
 function isEmptyObject(obj){
     return (Object.getOwnPropertyNames(obj).length === 0);
 }
-var dialog = document.getElementById('create-room-dialog');
+
+const roomDialog = document.getElementById('create-room-dialog');
 
 document.getElementById("create-room").onclick = function() {
-    dialog.style.display = "block";
-}
-document.getElementById("add-room-members").onclick = function() {
+    roomDialog.style.display = "block";
+};
 
+function closeRoomDialog() {
+    roomDialog.style.display = "none";
 }
 
-function closeDialog() {
-    dialog.style.display = "none";
+function addMember(){
+    let email = document.getElementById('user-email-field').value;
+
+    chatSocket.send(JSON.stringify({
+        'command': 'search_user',
+        'email' : email
+    }));
 }
