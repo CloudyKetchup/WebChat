@@ -1,5 +1,4 @@
-import json
-import requests
+import json,requests
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 from main.models import User
@@ -22,23 +21,8 @@ def room(request, room_name):
 # will send to registration page or registration request to server
 def register(request):
     if request.method == "POST":
-        # json that will be send to server for registration procedure
-        json_request = {
-            # put all data inside
-            "email": str(request.POST.get('email')),
-            "name": str(request.POST.get('username')),
-            "password": str(request.POST.get('password'))
-        }
         # send registration request to server
-        try:
-            r = requests.post('http://localhost:3000/register', json_request)
-            # server response after request
-            if r.text != "Registration success":
-                render(request,'registration.htm')
-            else:
-                return login_request(request)
-        except Exception as e:
-            print(e)
+        register_request(register_data(request))
     # send back to registration page
     return render(request,'registration.htm')
 
@@ -51,15 +35,23 @@ def login(request):
     return render(request,'login_page.htm')
 
 
+def register_request(json):
+    try:
+        r = requests.post('http://localhost:3000/register', json)
+        # API response
+        if r.text != "Registration success":
+            render(request,'registration.htm')
+        else:
+            return login_request(request)
+    except Exception as e:
+        print(e)
+
+
 def login_request(request):
-    json_request = {
-        "email": str(request.POST.get('email')),
-        "password": str(request.POST.get('password'))
-    }
     # send login request to server
     try:
-        r = requests.post('http://localhost:3000/login', json_request)
-        # server response after request
+        r = requests.post('http://localhost:3000/login', login_data(request))
+        # API response
         response = r.json()
         response_message = response['message']
         User.name = response['name']
@@ -71,3 +63,18 @@ def login_request(request):
             return login(request)
     except Exception as e:
         print(e)
+
+# data for request POST
+def register_data(request):
+    return {
+        "email": str(request.POST.get('email')),
+        "name": str(request.POST.get('username')),
+        "password": str(request.POST.get('password'))
+    }
+
+
+def login_data(request):
+    return {
+        "email": str(request.POST.get('email')),
+        "password": str(request.POST.get('password'))
+    }

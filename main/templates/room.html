@@ -18,22 +18,25 @@
         </div>
     </div>
     <div id="chat-box"></div>
-    <div id="create-room-dialog" class="modal" style="background-color: #fefefe;">
+    <div id="create-room-dialog" class="modal">
         <div id="create-room-header" style="background-color: #fefefe; height: 14% ;">
-            <button class="btn" id="close" onclick="closeDialog()"><i class="fa fa-close"></i></button>
+            <button class="btn" id="close" onclick="closeRoomDialog()"><i class="fa fa-close"></i></button>
             <p id="create-room-title">Create Chat</p> 
         </div>
         <form method='POST' id="registraion-form">
             {% csrf_token %}
             <div class="row">
                 <div class="input-field col s4 offset-s4">
-                    <input placeholder="Room name" id="room-name-field" name="room-name" class="left-align">
+                    <input placeholder="Room name" id="room-name-field" name="room-name" class="center-align">
+                    <input placeholder="Member Email" id="user-email-field" name="user-email" class="center-align">
                 </div>
             </div>
-            <div id="added-chat-members"></div>
+            <div id="added-chat-members">
+                <p id="members">Members : 0</p>
+            </div>
         </form>
         <div id="create-room-footer">
-            <button class="waves-effect blue-grey darken-4 btn" id="add-room-members">Add chat member</button>
+            <a class="waves-effect blue-grey darken-4 btn" id="add-room-members" onclick="addMember()">Add member</a>
             <button class="waves-effect blue-grey darken-4 btn" id="create-room-submit">Create</button>
         </div>
     </div>

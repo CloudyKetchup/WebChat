@@ -2,7 +2,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.contrib.auth import get_user_model
 from .models import Message
-import json
+import json, requests
 
 User = get_user_model()
 
@@ -10,8 +10,7 @@ User = get_user_model()
 class ChatConsumer(WebsocketConsumer):
 
     # get all last messages from server
-    # and send to user
-    def fetch_messages(self,data):
+    def fetch_messages(self, data):
         # last messages
         messages = Message.last_messages()
         content = {
@@ -23,12 +22,21 @@ class ChatConsumer(WebsocketConsumer):
     # create and send message to chat
     def new_message(self, data):
         author = data['from']
-        message = Message(author,data['message'])
+        message = Message(author, data['message'])
         content = {
             'command': 'new_message',
             'messages': self.message_to_json(message)
         }
         return self.send_chat_message(content)
+
+    # search for email in database
+    def search_user(self, data):
+        json = {
+            'email': data['email']
+        }
+        r = requests.post('http://localhost:3000/search-member', json)
+        response = r.json()
+        print(response['message'])
 
     # convert last messages to json format
     def messages_to_json(self, messages):
@@ -68,13 +76,14 @@ class ChatConsumer(WebsocketConsumer):
 
     commands = {
         'fetch_messages': fetch_messages,
-        'new_message': new_message
+        'new_message': new_message,
+        'search_user': search_user
     }
 
     # receive message from WebSocket
     def receive(self, text_data):
         data = json.loads(text_data)
-        self.commands[data['command']](self,data)
+        self.commands[data['command']](self, data)
 
     def send_chat_message(self, message):
         # send message to room group
