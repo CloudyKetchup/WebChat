@@ -12,24 +12,27 @@
     <div id="main-container">
         <button class="waves-effect hoverable waves-light btn"
         id="chat-message-submit"><i class="fa fa-send"></i></button>
-        <label for="chat-message-input"></label><input name="messages" id="chat-message-input">
+        <div id="message-input-container">
+            <input placeholder="Message" id="chat-message-input">    
+        </div>
         <div id="rooms-container">
             <button class="waves-effect hoverable btn" id="create-room"><i class="fa fa-plus"></i></button>
         </div>
     </div>
     <div id="chat-box"></div>
     <div id="create-room-dialog" class="modal">
-        <div id="create-room-header" style="background-color: #fefefe; height: 14% ;">
+        <div id="create-room-header" style="background-color: #fefefe; width: 100%; height: 30%;">
             <button class="btn" id="close" onclick="closeRoomDialog()"><i class="fa fa-close"></i></button>
             <p id="create-room-title">Create Chat</p> 
         </div>
         <form method='POST' id="registraion-form">
             {% csrf_token %}
             <div class="row">
-                <div class="input-field col s4 offset-s4">
+                <div class="input-field col s4 offset-s4" style="min-width: 60%; margin-left: 20%;">
                     <input placeholder="Room name" id="room-name-field" name="room-name" class="center-align">
-                    <input placeholder="Member Email" id="user-email-field" name="user-email" class="center-align">
+                    <input placeholder="Member Email" id="user-email-field" name="user-email" class="center-align validate">
                 </div>
+                <p id="field-error" class="field-error">Error</p>
             </div>
             <div id="added-chat-members">
                 <p id="members">Members : 0</p>
@@ -37,7 +40,7 @@
         </form>
         <div id="create-room-footer">
             <a class="waves-effect blue-grey darken-4 btn" id="add-room-members" onclick="addMember()">Add member</a>
-            <button class="waves-effect blue-grey darken-4 btn" id="create-room-submit">Create</button>
+            <button class="waves-effect blue-grey darken-4 btn" id="create-room-submit" onclick="createRoom()">Create</button>
         </div>
     </div>
 </body>
