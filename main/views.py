@@ -5,12 +5,16 @@ from main.models import User
 
 
 def homepage(request):
+    # if logged redirect to chat
     if User.name != None:
         return redirect('main:room',room_name='chat')
     return redirect('main:login')
 
 
 def room(request, room_name):
+    # if not logged in,redirect to login page
+    if User.name == None:
+        return redirect('main:login')
     return render(request, 'room.html', {
         'room_name_json': mark_safe(json.dumps(room_name)),
         'rooms':User.rooms,

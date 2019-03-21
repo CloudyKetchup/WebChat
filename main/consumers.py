@@ -1,13 +1,14 @@
 from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import JsonWebsocketConsumer
 from django.contrib.auth import get_user_model
 from .models import Message
 import json, requests
 
 User = get_user_model()
+API_URL = 'http://localhost:3000/'
 
 
-class ChatConsumer(WebsocketConsumer):
+class ChatConsumer(JsonWebsocketConsumer):
 
     # get all last messages from server
     def fetch_messages(self, data):
@@ -31,12 +32,23 @@ class ChatConsumer(WebsocketConsumer):
 
     # search for email in database
     def search_user(self, data):
-        json = {
+        r = requests.post(API_URL + 'search-member', {'email': data['email']})
+        self.send_json({
+            'response': r.json()['message'],
             'email': data['email']
+            })
+
+    # create room request to API
+    def create_room(self,data):
+        data_json = {
+            'roomName': data['roomName'],
+            'members': data['members']
         }
-        r = requests.post('http://localhost:3000/search-member', json)
-        response = r.json()
-        print(response['message'])
+        r = requests.post(API_URL + 'create-room',data_json)
+        self.send_json({
+            'response': r.json()['message']
+            })
+
 
     # convert last messages to json format
     def messages_to_json(self, messages):
@@ -77,7 +89,8 @@ class ChatConsumer(WebsocketConsumer):
     commands = {
         'fetch_messages': fetch_messages,
         'new_message': new_message,
-        'search_user': search_user
+        'search_user': search_user,
+        'create_room': create_room
     }
 
     # receive message from WebSocket
