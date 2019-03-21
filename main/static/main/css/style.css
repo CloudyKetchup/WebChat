@@ -1,8 +1,11 @@
-body{
+body,html{
 	height: 100%;	
 	width: 100%;
 	border: none;
-	background: url("https://wallpaperaccess.com/full/99797.png");
+	background: url("http://hdqwalls.com/wallpapers/iceberg-minimalist-4k-qp.jpg");
+	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
 }
 #main-container{
 	width: 100%;
@@ -37,14 +40,9 @@ body{
 	box-shadow: none!important;
 }
 
-#add-room-members {
-	margin-left: 41%;
-	position: relative;
-}
-
 #create-room-footer {
-	height: 30%;
 	width: 100%;
+	height: 25%;
 	bottom: 0px;
  	position: absolute;
 }
@@ -52,12 +50,21 @@ body{
 #add-room-members {
 	margin-left: 41%;
 	position: absolute;
+	top: 3%;
 }
 
 #create-room-submit {
 	margin-left: 44%;
 	position: relative;
-	top: 45%;
+	top: 50%;
+}
+
+.field-error {
+	display: none;
+	color: red;
+	bottom: 50%;
+	margin-left: 48%;
+	position: absolute;
 }
 
 #added-chat-members {
@@ -67,44 +74,62 @@ body{
 #members {
 	color: #242633;
 	text-align: center;
-
 }
 
 .modal {
 	background-color: #fefefe;
 	display: none;
 	top: 10%;
-	width: 50%;
-	height: 50%;
+	width: 60%;
+	height: 65%;
+	min-height: 400px;
 	animation-name: animatetop;
 	animation-duration: 0.2s;
 }
-#chat-message-input {
-	background: transparent;
-	bottom: 1%;
-	width: 80%;
-	height: 40px;
-	max-width: 80%;
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #242633;
+}
+#message-input-container {
+	background-color: #fce0d4;
+	bottom: 0px;
+	width: 87%;
+	height: 7%;
 	min-width: 100px;
 	color: #242633;
 	border: none;
 	outline: none;
-	border-bottom: 2px solid #242633 !important;
 	position: absolute;
 	box-sizing: border-box;
-	margin-right: 10%;
-	margin-left: 12%;
+	margin-right: 0px;
+	margin-left: 10%;
+}
+#chat-message-input:focus {
+	box-shadow: none;
+  	border-bottom: none;
+}
+#chat-message-input {
+	background: transparent;
+	width: 80%;
+	top: 10%;
+	height: 80%;
+	min-width: 100px;
+	color: #242633;
+	border: none;
+	outline: none;
+	position: absolute;
+	box-sizing: border-box;
+	margin-left: 2%;
 }
 #chat-message-submit {
 	background: #242633;
-	width: 6%;
-	height: 40px;
+	width: 8%;
+	height: 7%;
 	color: #c7dbdc;
 	border: none;
 	position: absolute;
-	right:    1%;
-	bottom:   2%;
-	border-radius: 3px; 
+	margin-left: 0%;
+	right: 0%;
+	bottom: 0%;
 }
 #chat-message-submit:hover {
 	transition: 1s;
@@ -151,7 +176,7 @@ body{
 	text-align: center;
 }
 #create-room-title {
-	color: white;
+	color: black;
 	top: 0px;
 	left: 45%;
 	font-weight: bold;
