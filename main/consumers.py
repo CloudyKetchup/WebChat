@@ -32,11 +32,14 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     # search for email in database
     def search_user(self, data):
-        r = requests.post(API_URL + 'search-member', {'email': data['email']})
-        self.send_json({
-            'response': r.json()['message'],
-            'email': data['email']
-            })
+        try:
+            r = requests.post(API_URL + 'search-member', {'email': data['email']})
+            self.send_json({
+                'response': r.json()['message'],
+                'email': data['email']
+                })
+        except Exception as e:
+            print(e)
 
     # create room request to API
     def create_room(self,data):
@@ -44,10 +47,14 @@ class ChatConsumer(JsonWebsocketConsumer):
             'roomName': data['roomName'],
             'members': data['members']
         }
-        r = requests.post(API_URL + 'create-room',data_json)
-        self.send_json({
-            'response': r.json()['message']
-            })
+        print(data_json)
+        try:
+            r = requests.post(API_URL + 'create-room',data_json)
+            self.send_json({
+                'response': r.json()['message']
+                })
+        except Exception as e:
+            print(e)
 
 
     # convert last messages to json format
