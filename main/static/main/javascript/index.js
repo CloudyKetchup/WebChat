@@ -4,6 +4,8 @@ let roomsList = [];
 let room;
 var members = [];
 const roomDialog = document.getElementById('create-room-dialog');
+const roomNameField = document.querySelector('#room-name-field');
+const errorField = document.getElementById('field-error');
 
 if (isEmptyObject(rooms)) {
     const emptyList = document.createElement("p");
@@ -27,7 +29,7 @@ if (isEmptyObject(rooms)) {
 }
 chatSocket.onmessage = function(e) {
     data = JSON.parse(e.data);
-    response = data['response']
+    response = data['response'];
     switch (response) {
         case 'Member exist':
             memberToList(data);
@@ -38,28 +40,33 @@ chatSocket.onmessage = function(e) {
             error.innerHTML = response; 
             break;
         default:
-            data = JSON.parse(e.data);
-            var messages = data['messages'];
-            if (messages['content'] != null) {
-                renderMessage(messages['content'],messages['author'])
+            var message = data['message'];
+            if (message['content'] != null) {
+                renderMessage(
+                    message['content'],
+                    message['author'])
             }
             break;
     }
 };
 
 chatSocket.onclose = function(e) {
-    console.error('Chat socket closed unexpectedly');
+    console.error("socket closed");
 };
 
-chatSocket.onopen = function(e) {
-    chatSocket.send(JSON.stringify({'command': 'fetch_messages'}));
-};
+// chatSocket.onopen = function(e) {
+//     chatSocket.send(JSON.stringify({'command': 'fetch_messages'}));
+// };
 
 document.querySelector('#chat-message-input').onkeyup = function(e) {
     if (e.keyCode === 13) {  // enter, return
         document.querySelector('#chat-message-submit').click();
     }
 };
+
+roomNameField.onkeyup = function(){
+    errorField.style.display = "none";
+}
 
 document.querySelector('#chat-message-submit').onclick = function(e) {
     let input = document.querySelector('#chat-message-input');
@@ -132,23 +139,25 @@ function addMember(){
     }
 }
 function createRoom(){
-    const roomName = document.getElementById('room-name-field');
-    const error = document.getElementById('error-field');
     membersJson = {}
-
-    for (member in members) {
-        membersJson.push(members[member]);
+    for (let i = 0; i < members.length;i++) {
+        let user = 'member' + i;
+        membersJson[user] = members[i];
     }
-    console.log(membersJson);
+    createRoomRequest(membersJson);
+}
 
-    if (roomName.value = '') {
-        error.style.display = "block";
-        error.innerHTML = "Room name cannot be empty";
+function createRoomRequest(membersJson){
+    dataJson = {
+        'command': 'create_room',
+        'roomName': roomNameField.value,
+        'admin': username,
+        'members': membersJson
+    }
+    if (roomNameField.value === "") {
+        errorField.style.display = "block";
+        errorField.innerHTML = "Room name cannot be empty";
     }else {
-        chatSocket.send(JSON.stringify({
-            'command': 'create_room',
-            'roomName': roomName.value,
-            'members': membersJson
-        }));
+        chatSocket.send(JSON.stringify(dataJson));
     }
 }

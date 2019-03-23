@@ -15,7 +15,7 @@ body,html{
 	background: #242633;
 	height: 100%;
 	width: 10%;
-	min-width: 7%;
+	min-width: 10%;
 	position: absolute;
 }
 .room-button {
@@ -62,8 +62,9 @@ body,html{
 .field-error {
 	display: none;
 	color: red;
-	bottom: 50%;
-	margin-left: 48%;
+	bottom: 35%;
+	text-align:center;
+	left: 38%;
 	position: absolute;
 }
 
