@@ -27,38 +27,24 @@ if (isEmptyObject(rooms)) {
         roomsSpacing += 50;
     }
 }
-chatSocket.onmessage = function(e) {
+chatSocket.onmessage = (e) => {
     data = JSON.parse(e.data);
     response = data['response'];
-    switch (response) {
-        case 'Member exist':
-            memberToList(data);
-            break;
-        case 'User with that name does not exist':
-            const error = document.getElementById('error-field');
-            error.style.display = "block";
-            error.innerHTML = response; 
-            break;
-        default:
-            var message = data['message'];
-            if (message['content'] != null) {
-                renderMessage(
-                    message['content'],
-                    message['author'])
-            }
-            break;
-    }
+    responseHandler(response);
 };
 
-chatSocket.onclose = function(e) {
+chatSocket.onclose = (e) => {
     console.error("socket closed");
 };
 
-// chatSocket.onopen = function(e) {
-//     chatSocket.send(JSON.stringify({'command': 'fetch_messages'}));
-// };
+chatSocket.onopen = (e) => {
+    chatSocket.send(JSON.stringify({
+        'command': 'get_rooms',
+        'email': email 
+    }));
+};
 
-document.querySelector('#chat-message-input').onkeyup = function(e) {
+document.querySelector('#chat-message-input').onkeyup = (e) => {
     if (e.keyCode === 13) {  // enter, return
         document.querySelector('#chat-message-submit').click();
     }
@@ -68,7 +54,7 @@ roomNameField.onkeyup = function(){
     errorField.style.display = "none";
 }
 
-document.querySelector('#chat-message-submit').onclick = function(e) {
+document.querySelector('#chat-message-submit').onclick = (e) => {
     let input = document.querySelector('#chat-message-input');
     let message = input.value;
     chatSocket.send(JSON.stringify({
@@ -79,21 +65,44 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
     input.value = '';
 };
 
-document.getElementById("create-room").onclick = function() {
+document.getElementById("create-room").onclick = () => {
     roomDialog.style.display = "block";
 };
 
+function responseHandler(response){
+    switch (response) {
+        case 'Member exist':
+            memberToList(data);
+            break;
+        case 'User with that name does not exist':
+            roomFormError(response);
+            break;
+        case 'Room already exist':
+            roomFormError(response);
+            break;
+        default:
+            var message = data['message'];
+            renderMessage(
+                message['content'],
+                message['author']
+            )
+            break;
+    }
+}
+
+function roomFormError(response){
+    const error = document.getElementById('field-error');
+    error.style.display = "block";
+    error.innerHTML = response; 
+}
+
 function memberToList(data){
-    if (data['name'] != username) {
-        let membersDOM = document.getElementById('members');
-        let emailField = document.getElementById('user-email-field');
-        if (!members.includes(data['email'])) {
-            members.push(data['email']);
-            membersDOM.innerHTML = "Members : " + members.length;
-            emailField.value = '';
-        }
+    if (data['name'] != username && !members.includes(data['email'])) {
+        members.push(data['email']);
+        document.getElementById('members').innerHTML = "Members : " + members.length;
+        document.getElementById('user-email-field').value = '';
     }else {
-        console.log("You can't add your self");
+        roomFormError("You can't add yourself");
     }
 }
 

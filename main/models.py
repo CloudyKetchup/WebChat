@@ -1,8 +1,4 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
 
 class Message(models.Model):
 
@@ -22,7 +18,7 @@ class Message(models.Model):
         return Message.objects.order_by('-time').all()[:15]
 
 
-class User(models.Model):
+class User():
 
     name = None
     email = None

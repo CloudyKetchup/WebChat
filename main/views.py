@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 from main.models import User
 
+API_URL = 'http://localhost:3000/'
 
 def homepage(request):
     # if logged redirect to chat
@@ -17,7 +18,8 @@ def room(request, room_name):
         return redirect('main:login')
     return render(request, 'room.html', {
         'room_name_json': mark_safe(json.dumps(room_name)),
-        'rooms':User.rooms,
+        'rooms': mark_safe(json.dumps(User.rooms)),
+        'email': mark_safe(json.dumps(User.email)),
         'username': mark_safe(json.dumps(User.name))
     })
 
@@ -41,7 +43,7 @@ def login(request):
 
 def register_request(json):
     try:
-        r = requests.post('http://localhost:3000/register', json)
+        r = requests.post(API_URL + 'register', json)
         # API response
         if r.text != "Registration success":
             render(request,'registration.htm')
@@ -50,18 +52,12 @@ def register_request(json):
     except Exception as e:
         print(e)
 
-
+# send login request to server
 def login_request(request):
-    # send login request to server
     try:
-        r = requests.post('http://localhost:3000/login', login_data(request))
-        # API response
-        response = r.json()
-        response_message = response['message']
-        User.name = response['name']
-        for room in response['rooms']:
-            User.rooms.append(room)
-        if response_message == "Login success":
+        r = requests.post(API_URL + 'login', login_data(request))
+        setup_user(r.json())
+        if r.json()['message'] == "Login success":
             return redirect('main:room',room_name='chat')
         else:
             return login(request)
@@ -82,3 +78,9 @@ def login_data(request):
         "email": str(request.POST.get('email')),
         "password": str(request.POST.get('password'))
     }
+
+
+def setup_user(response):
+    User.name  = response['name']
+    User.email = response['email']
+    # User.rooms = response['rooms']

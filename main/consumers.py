@@ -10,15 +10,31 @@ API_URL = 'http://localhost:3000/'
 
 class ChatConsumer(JsonWebsocketConsumer):
 
-    # get all last messages from server
-    def fetch_messages(self, data):
-        # last messages
-        messages = Message.last_messages()
-        content = {
-            'command': 'messages',
-            'messages': self.messages_to_json(messages)
-        }
-        self.send_message(content)
+    # get all user rooms from database
+    def get_rooms(self,data):
+        try:
+            # send email to get user rooms
+            r = requests.post(API_URL + 'get-rooms',
+                {
+                    'email': data['email']
+                }
+            )
+            self.send_json({
+                'response': r.json()['message'],
+                'rooms': r.json()['rooms']
+                })
+        except Exception as e:
+            print(e)
+
+    # # get all last messages from server
+    # def fetch_messages(self, data):
+    #     # last messages
+    #     messages = Message.last_messages()
+    #     content = {
+    #         'command': 'messages',
+    #         'messages': self.messages_to_json(messages)
+    #     }
+    #     self.send_message(content)
 
     # create and send message to chat
     def new_message(self, data):
@@ -26,14 +42,18 @@ class ChatConsumer(JsonWebsocketConsumer):
         message = Message(author, data['message'])
         content = {
             'command': 'new_message',
-            'messages': self.message_to_json(message)
+            'message': self.message_to_json(message)
         }
         return self.send_chat_message(content)
 
     # search for email in database
     def search_user(self, data):
         try:
-            r = requests.post(API_URL + 'search-member', {'email': data['email']})
+            r = requests.post(API_URL + 'search-member', 
+                {
+                    'email': data['email']
+                }
+            )
             self.send_json({
                 'response': r.json()['message'],
                 'email': data['email']
@@ -43,13 +63,12 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     # create room request to API
     def create_room(self,data):
-        data_json = {
+        data = {
             'roomName': data['roomName'],
-            'members': data['members']
+            'members': json.dumps(data['members'])
         }
-        print(data_json)
         try:
-            r = requests.post(API_URL + 'create-room',data_json)
+            r = requests.post(API_URL + 'create-room',data)
             self.send_json({
                 'response': r.json()['message']
                 })
@@ -94,7 +113,8 @@ class ChatConsumer(JsonWebsocketConsumer):
         )
 
     commands = {
-        'fetch_messages': fetch_messages,
+        'get_rooms': get_rooms,
+        # 'fetch_messages': fetch_messages,
         'new_message': new_message,
         'search_user': search_user,
         'create_room': create_room
@@ -114,13 +134,22 @@ class ChatConsumer(JsonWebsocketConsumer):
                 'message': message
             }
         )
+        self.message_to_database(message)
 
-    def send_message(self, message):
-        self.send(text_data=json.dumps(message))
+    # send new message to database 
+    def message_to_database(self,message):
+        try:
+            r.requests.post(API_URL + 'new-message',
+                {
+                    'message': message['message']
+                }
+            )
+            self.send_json({
+                'response': r.json()['message']
+                })
+        except Exception as e:
+            print(e)
 
-    # receive message from room group
+    # send message to WebSocket
     def chat_message(self, event):
-        message = event['message']
-
-        # send message to WebSocket
-        self.send_message(message)
+        self.send(json.dumps(event['message']))
