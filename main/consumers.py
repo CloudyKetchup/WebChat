@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from .models import Message
 import json, requests
 
-User = get_user_model()
 API_URL = 'http://localhost:3000/'
 
 
@@ -74,7 +73,6 @@ class ChatConsumer(JsonWebsocketConsumer):
                 })
         except Exception as e:
             print(e)
-
 
     # convert last messages to json format
     def messages_to_json(self, messages):
