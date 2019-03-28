@@ -6,6 +6,8 @@ body,html{
 	background-position: center;
   	background-repeat: no-repeat;
   	background-size: cover;
+  	overflow-y:hidden;
+  	overflow-x:hidden;
 }
 #main-container{
 	width: 100%;
@@ -14,21 +16,18 @@ body,html{
 #rooms-container{
 	background: #242633;
 	height: 100%;
-	width: 10%;
+	width: 15%;
 	min-width: 10%;
 	position: absolute;
 }
-.room-button {
-	width: 100%;
-	height: 50px;
-	color: #c7dbdc;
-	border: none;
-	outline: none;
-	background-color: #242633;
-}
-.room-button:hover {
-	transition: 1s;
-	background-color: #1b1c26;
+
+#chat-box {
+	height: 85%;
+    width: 83%;
+    right: 0px;
+    top: 7%;
+    overflow-y: auto;
+    position: absolute;
 }
 #create-room {
 	background: transparent;
@@ -90,10 +89,29 @@ body,html{
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
   color: #242633;
 }
+#chat-bar {
+	display: none;
+	background-color: #fce0d4;
+	height: 7%;
+	width: 85%;
+	right: 0px;
+	position: absolute;
+}
+
+#chat-title {
+	margin: 0;
+	top: 50%;
+	left: 3%;
+	position: absolute;
+	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+
 #message-input-container {
+	display: none;
 	background-color: #fce0d4;
 	bottom: 0px;
-	width: 87%;
+	width: 82%;
 	height: 7%;
 	min-width: 100px;
 	color: #242633;
@@ -102,15 +120,12 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	position: absolute;
 	box-sizing: border-box;
 	margin-right: 0px;
-	margin-left: 10%;
+	margin-left: 15%;
 }
-#chat-message-input:focus {
-	box-shadow: none;
-  	border-bottom: none;
-}
+
 #chat-message-input {
 	background: transparent;
-	width: 80%;
+	width: 100%;
 	top: 10%;
 	height: 80%;
 	min-width: 100px;
@@ -121,11 +136,16 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	box-sizing: border-box;
 	margin-left: 2%;
 }
+#chat-message-input:focus {
+	box-shadow: none;
+  	border-bottom: none;
+}
 #chat-message-submit {
+	display: none;
 	background: #242633;
 	width: 8%;
 	height: 7%;
-	color: #c7dbdc;
+	color: #fefefe;
 	border: none;
 	position: absolute;
 	margin-left: 0%;
@@ -167,6 +187,24 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	box-sizing: border-box;
 	margin-right: 10%;
 	margin-left: 12%;
+}
+.room {
+	background: transparent;
+	height: 7%;
+	width: 100%;
+	color: #fefefe;
+	border: none;
+	border-bottom: 1px solid #fefefe;
+	outline: none;
+	position: relative;
+	text-align: center;
+}
+.room:focus {
+	background: #1b1c26;
+}
+.room:hover {
+	transition: 0.5s;
+	background-color: #1b1c26;
 }
 .message {
 	background: #242633;
