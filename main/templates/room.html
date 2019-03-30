@@ -3,26 +3,44 @@
 <head>
     <title>Chat</title>
     {% load static %}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %} ">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
     <div id="main-container">
+        <div id="chat-bar">
+            <p id="chat-title"></p>
+            <p id="chat-members-count"></p>
+            <button class="btn" id="room-options"><i class="fas fa-ellipsis-v"></i></button>
+        </div>
         <button class="waves-effect hoverable waves-light btn"
-        id="chat-message-submit"><i class="fa fa-send"></i></button>
+        id="chat-message-submit"><i class="fas fa-paper-plane"></i></button>
         <div id="message-input-container">
             <input placeholder="Message" id="chat-message-input">    
         </div>
         <div id="rooms-container">
-            <button class="waves-effect hoverable btn" id="create-room"><i class="fa fa-plus"></i></button>
+            <input placeholder="Search" type="text" id="rooms-search">
+            <button class="waves-effect hoverable btn" id="create-room"><i class="fa fa-plus center"></i></button>
         </div>
     </div>
     <div id="chat-box"></div>
+    <!-- Room options dialog -->
+    <div id="room-options-dialog" class="modal">
+        <div id="room-options-header" style="background-color: #242633; text-align: left; height: 15%;">
+            <button class="btn" id="close" onclick="closeRoomOptions()"><i class="fas fa-times-circle"></i></button> 
+        </div>
+        <p id="room-options-title">Chat options</p>
+        <input type="email" placeholder="Member Email" id="options-email-field" name="user-email" class="center-align validate" style="top: 10px; width: 70%; position: relative;">
+        <p id="field-error" style="color: red;top: 35%;left: 25%;position: initial;">Error</p>
+        <a class="waves-effect blue-grey darken-4 btn" id="add-room-member" style="left: 34%;border-radius: 100px;top: 55%;position: absolute;">Add member</a>
+        <button id="delete-chat-button" class="waves-effect waves-light btn" onclick="deleteRoom()">Delete chat</button>
+    </div>
+    <!-- Create new room dialog -->
     <div id="create-room-dialog" class="modal">
-        <div id="create-room-header" style="background-color: #fefefe; width: 100%; height: 30%;">
-            <button class="btn" id="close" onclick="closeRoomDialog()"><i class="fa fa-close"></i></button>
+        <div id="create-room-header" style="background-color: #242633; height: 11%;">
+            <button class="btn" id="close" onclick="closeRoomCreate()"><i class="fas fa-times-circle"></i></button>
             <p id="create-room-title">Create Chat</p> 
         </div>
         <form method='POST' id="registraion-form">
@@ -30,7 +48,7 @@
             <div class="row">
                 <div class="input-field col s4 offset-s4" style="min-width: 60%; margin-left: 20%;">
                     <input placeholder="Room name" id="room-name-field" name="room-name" class="center-align">
-                    <input placeholder="Member Email" id="user-email-field" name="user-email" class="center-align validate">
+                    <input type="email" placeholder="Member Email" id="user-email-field" name="user-email" class="center-align validate">
                 </div>
                 <p id="field-error" class="field-error">Error</p>
             </div>
@@ -39,15 +57,15 @@
             </div>
         </form>
         <div id="create-room-footer">
-            <a class="waves-effect blue-grey darken-4 btn" id="add-room-members" onclick="addMember()">Add member</a>
+            <a class="waves-effect blue-grey darken-4 btn" id="add-room-members">Add member</a>
             <button class="waves-effect blue-grey darken-4 btn" id="create-room-submit" onclick="createRoom()">Create</button>
         </div>
     </div>
 </body>
 <script>
     let roomName = {{ room_name_json }};
-    let rooms = {{ rooms }};
     let username = {{ username }};
+    let accountEmail = {{ email }};
 
     let chatSocket = new WebSocket(
         'ws://' + window.location.host +

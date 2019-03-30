@@ -2,7 +2,7 @@ body,html{
 	height: 100%;	
 	width: 100%;
 	border: none;
-	background: url("http://hdqwalls.com/wallpapers/iceberg-minimalist-4k-qp.jpg");
+	background: url("https://i.pinimg.com/originals/43/3a/81/433a815b8313453ee2edae5f7c91de73.jpg");
 	background-position: center;
   	background-repeat: no-repeat;
   	background-size: cover;
@@ -22,18 +22,44 @@ body,html{
 }
 
 #chat-box {
-	height: 85%;
-    width: 83%;
+	height: 86%;
+    width: 85%;
     right: 0px;
     top: 7%;
     overflow-y: auto;
     position: absolute;
 }
+
+#rooms-search {
+	background-color: rgba(124, 131, 173,0.4);
+	color: #fefefe;
+	border: none;
+    width: 80%;
+    height: 5%;
+    top: 0.9%;
+    left: 5%;
+    right: 3%;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+#rooms-search:focus {
+	box-shadow: none;
+  	border-bottom: none;
+}
+
+#rooms-search::placeholder {
+	color: rgb(124, 131, 173);
+}
+
 #create-room {
 	background: transparent;
 	height: 45px;
+	text-align: center;
 	border-radius: 100%;
-	top: calc(100% - 23px);
+	top: calc(100% - 70px);
 	left: 10px;
 	transform: translate(-30%, -50%);
 	box-shadow: none!important;
@@ -47,14 +73,14 @@ body,html{
 }
 
 #add-room-members {
-	margin-left: 41%;
+	left: 41%;
 	position: absolute;
 	top: 3%;
 }
 
 #create-room-submit {
-	margin-left: 44%;
-	position: relative;
+	left: 44%;
+	position: absolute;
 	top: 50%;
 }
 
@@ -63,7 +89,7 @@ body,html{
 	color: red;
 	bottom: 35%;
 	text-align:center;
-	left: 38%;
+	left: 35%;
 	position: absolute;
 }
 
@@ -76,22 +102,41 @@ body,html{
 	text-align: center;
 }
 
-.modal {
-	background-color: #fefefe;
+#create-room-dialog {
 	display: none;
 	top: 10%;
-	width: 60%;
-	height: 65%;
+	width: 50%;
+	height: 50%;
+	border-radius: 5px;
 	min-height: 400px;
 	animation-name: animatetop;
 	animation-duration: 0.2s;
 }
+
+#room-options-dialog {
+	display: none;
+	text-align: center;
+	top: 10%;
+	height: 250px;
+	width: 400px;
+	border-radius: 5px;
+	animation-name: animatetop;
+	animation-duration: 0.2s;
+}
+
+#delete-chat-button {
+	background-color: #EB6752;
+	border-radius: 100px;
+	top: 50px; 
+}
+
 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
   color: #242633;
 }
+
 #chat-bar {
 	display: none;
-	background-color: #fce0d4;
+	background-color: #EB6752;
 	height: 7%;
 	width: 85%;
 	right: 0px;
@@ -99,17 +144,55 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 
 #chat-title {
+	color: #fefefe;
 	margin: 0;
-	top: 50%;
+	top: 25%;
 	left: 3%;
+	font-weight: bold;
 	position: absolute;
 	-ms-transform: translateY(-50%);
   	transform: translateY(-50%);
 }
 
+#chat-members-count {
+	color: #fefefe;
+	margin: 0;
+	top: 65%;
+	left: 3%;
+	position: absolute;
+	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);	
+}
+
+#options-chat-title {
+	font-style: bold;
+	color: #242633;
+}
+
+#room-options {
+	background: transparent; 
+	top: 10%;
+	right: 10px;
+	box-shadow: none;
+	border-radius: 100%;
+	position: absolute;
+}
+#room-options:hover {
+	color: #d6d6d6;
+}
+
+#room-options-button {
+	background: transparent;
+	border: none;
+	outline: none;
+	right: 15px;
+	top: 50%;
+	position: absolute;
+}
+
 #message-input-container {
 	display: none;
-	background-color: #fce0d4;
+	background-color: #EB6752;
 	bottom: 0px;
 	width: 82%;
 	height: 7%;
@@ -129,7 +212,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	top: 10%;
 	height: 80%;
 	min-width: 100px;
-	color: #242633;
+	color: #fefefe;
 	border: none;
 	outline: none;
 	position: absolute;
@@ -142,7 +225,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 #chat-message-submit {
 	display: none;
-	background: #242633;
+	background: #2E3E69;
 	width: 8%;
 	height: 7%;
 	color: #fefefe;
@@ -152,26 +235,40 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	right: 0%;
 	bottom: 0%;
 }
+
 #chat-message-submit:hover {
 	transition: 1s;
-	background: #0e0f14;
+	background: #253256;
 }
+
 .room-name-field {
 	outline: none;
 	border: 1px solid #242633;
 }
+
 .user-email-field {
 	outline: none;
 	border: 1px solid #242633;	
 }
+
+#user-email-field:focus {
+	border-bottom: 1px solid #242633 !important;
+    box-shadow: 0 1px 0 0 #242633 !important;
+}
+#user-email-field::placeholder {
+	color: grey;
+}
+
 .input-field input:focus + label {
 	color: #242633 !important;
 }
+
 .row .input-field input:focus {
 	color: #242633 !important;
 	border-bottom: 1px solid #242633 !important;
 	box-shadow: 0 1px 0 0 #242633 !important
 }
+
 #messageArea {
 	background: transparent;
 	bottom: 10px;
@@ -179,7 +276,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	height: 40px;
 	max-width: 80%;
 	min-width: 100px;
-	color: #242633;
+	color: #fefefe;
 	border: none;
 	outline: none;
 	border-bottom: 2px solid #242633 !important;
@@ -190,22 +287,21 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 .room {
 	background: transparent;
-	height: 7%;
-	width: 100%;
-	color: #fefefe;
-	border: none;
-	border-bottom: 1px solid #fefefe;
-	outline: none;
-	position: relative;
-	text-align: center;
+    height: 7%;
+    width: 100%;
+    color: rgb(124, 131, 173);
+    border: none;
+    border-bottom: 0.5px solid rgba(124, 131, 173,0.4);
+    outline: none;
+    top: -35px;
+    position: relative;
+    text-align: center;
 }
 .room:focus {
-	background: #1b1c26;
+	border-left: 2px solid #EB6752;
+	background: transparent;
 }
-.room:hover {
-	transition: 0.5s;
-	background-color: #1b1c26;
-}
+
 .message {
 	background: #242633;
 	padding: 10px;
@@ -214,8 +310,67 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 	position: absolute;
 	text-align: center;
 }
+.left-message-body {
+    background-color: #B9E0DC;
+    height: 35px;
+    width: 30px;
+    left: 10px;
+    margin-bottom: 10px;
+    position: absolute;
+    border-radius: 5px;
+}
+.left-message-content {
+    background-color: #fefefe;
+    border-radius: 5px;
+    height: 35px;
+    line-height: 30px;
+    padding: 3px;
+    padding-left: 10px; 
+    padding-right: 10px; 
+    min-width: 30px;
+    text-align: center;
+    color: #242633;
+    display: inline-block;
+    top: -15px;
+    left: 10px;
+    position: absolute;
+}
+.right-message-body {
+	background-color: #FFB709;
+    height: 35px;
+    width: 30px;
+    right: 10px;
+    margin-bottom: 10px;
+    position: absolute;
+    border-radius: 5px;
+}
+.right-message-content {
+	background-color: #fefefe;
+    border-radius: 5px;
+    height: 35px;
+    line-height: 30px;
+    padding: 3px;
+    padding-left: 10px; 
+    padding-right: 10px;
+    min-width: 30px;
+    text-align: center;
+    color: #242633;
+    display: inline-block;
+    top: -15px;
+    right: 10px;
+    position: absolute;
+}
+
+#room-options-title {
+	color: white;
+	top: 0px;
+	left: 40%;
+	font-weight: bold;
+	position: absolute;
+}
+
 #create-room-title {
-	color: black;
+	color: white;
 	top: 0px;
 	left: 45%;
 	font-weight: bold;
@@ -223,7 +378,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
 }
 #close {
 	background: none;
-  	color: #242633;
+  	color: white;
   	font-size: 28px;
   	box-shadow: none;
   	font-weight: bold;
