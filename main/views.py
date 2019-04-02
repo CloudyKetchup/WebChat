@@ -39,7 +39,7 @@ def register(request):
 
 def login(request):
     if request.method == "POST":
-        return login_request(request)
+        return login_request(login_data(request),request)
     return render(request,'login_page.htm')
 
 
@@ -47,26 +47,26 @@ def register_request(json):
     try:
         r = requests.post(API_URL + 'register', json)
         # API response
-        if r.text != "Registration success":
-            render(request,'registration.htm')
+        if r.text == "Registration success":
+            return login_request(json)
         else:
-            return login_request(request)
+            return redirect('main:register')
     except Exception as e:
         print(e)
 
 # send login request to API
-def login_request(request):
+def login_request(json,request):
     try:
-        r = requests.post(API_URL + 'login', login_data(request))
+        r = requests.post(API_URL + 'login', json)
         setup_user(r.json())
         if r.json()['message'] == "Login success":
             return redirect('main:room',room_name='chat')
         else:
-            return login(request)
+            render(request,'login_page.htm')
     except Exception as e:
         print(e)
 
-# data for request
+# json data for request
 def register_data(request):
     return {
         "email": str(request.POST.get('email')),
@@ -74,14 +74,14 @@ def register_data(request):
         "password": str(request.POST.get('password'))
     }
 
-
+# json data for login
 def login_data(request):
     return {
         "email": str(request.POST.get('email')),
         "password": str(request.POST.get('password'))
     }
 
-
+# setup user dictionary
 def setup_user(response):
     user['name']  = response['name']
     user['email'] = response['email']
