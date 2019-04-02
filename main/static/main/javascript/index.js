@@ -88,7 +88,6 @@ function renderRoomsList(response){
         rooms.push(room);
         // add room button to side panel
         $('#rooms-container').append(roomButton);
-
         // set style
         roomButton.setAttribute("class","room");
         roomButton.onclick = () => showRoom(room,response);
@@ -108,6 +107,11 @@ function showRoom(room,response){
         .css('display','block');
     // set title to room name
     $('#chat-title').html(room['name']);
+    // disable room delete button if user is not admin
+    if (room['admin'] != accountEmail) {
+        $('#options-email-field').attr('readonly', true);
+        $('#delete-chat-button').attr('disabled', true);
+    }
     $('#chat-members-count').html(selectedRoom['members'].length + ' members')
     // get room messages from database
     fetchMessages(selectedRoom['_id']);
@@ -115,28 +119,37 @@ function showRoom(room,response){
 
 // new message in chat box
 function renderMessage(message,author){
-    // create message div
-    const mesageBody = document.createElement("pre");
-    let messageContent;
-    messageContent = document.createElement("pre");
-    mesageBody.append(messageContent);
-    messageContent.innerHTML = message;
+    const messagePane   = $('<div/>');
+    const messageAuthor = $('<span/>');
+    // create message body with childs
+    const messageBody   = 
+        $('<div/>').append(
+            [
+                messagePane.append(messageAuthor.html(author)),
+                $('<span/>')
+                    .html(message)
+                    .attr('class','message-content')
+            ]
+        );
 	// add to chat box
-    $("#chat-box").append(mesageBody);
-    // render message on left/right side 
+    $('#chat-box').append(messageBody);
+    // align message on left/right side
+    function messageAlign(side) {
+        messageBody.attr('class',side + '-message-body');
+        messagePane.attr('class',side + '-message-pane');
+        messageAuthor.attr('class',side + '-message-author');
+    }
     if (author === username) {
-        mesageBody.setAttribute("class","right-message-body");
-        messageContent.setAttribute("class","right-message-content");
-    } else {
-        mesageBody.setAttribute("class","left-message-body");
-        messageContent.setAttribute("class","left-message-content");
+        messageAlign('right');
+    }else {
+        messageAlign('left');
     }
 	// render to top with specific distance
-	mesageBody.style.top = rect + "px";
+	messageBody.css('top',rect + "px");
     /* add distance for future message 
      * to render lower 
      */
-	rect += 50;
+	rect += 70;
     // scroll to bottom when added new message
 }
 // get user rooms list
@@ -175,7 +188,6 @@ function closeRoomCreate() {
 }
 // add member to list for new room
 function memberToList(data){
-    console.log(data);
     if (data['email'] != accountEmail) {
         // add to list member email
         members.push(data['email']);
@@ -183,7 +195,6 @@ function memberToList(data){
             newMember(data['email'],selectedRoom);
             $('#room-options-dialog').css('display','none');
         }
-        console.log(data['name']);
         // update members number in dialog
         $("#members").html("Members : " + members.length);
         // empty email field
@@ -214,11 +225,18 @@ function searchMember(email){
     }
 }
 
+// delete selected chat room
 function deleteRoom(){
-    console.log(selectedRoom);
+    chatSocket.send(JSON.stringify({
+        'command':'delete_room',
+        'roomID': String(selectedRoom['_id'])
+    }));
+    closeRoomOptions();
 }
 
+// create chat room
 function createRoom(){
+    // add user by default to room
     if (!members.includes(accountEmail)) {
         members.push(accountEmail);    
     }
@@ -256,6 +274,9 @@ function responseHandler(response){
         case 'Room updated':
             getRooms();
             showRoom(response['room']);
+            break;
+        case 'Room deleted':
+            getRooms();
             break;
         case 'Message added':
             break;

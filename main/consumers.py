@@ -79,13 +79,27 @@ class ChatConsumer(JsonWebsocketConsumer):
 
     # create room request to API
     def create_room(self,data):
-        data = {
+        json = {
             'roomName': data['roomName'],
             'admin': data['admin'],
             'members': data['members']
         }
         try:
-            r = requests.post(API_URL + 'create-room',data)
+            r = requests.post(API_URL + 'create-room',json)
+            self.send_json({
+                'response': r.json()['message']
+                })
+        except Exception as e:
+            print(e)
+
+    # delete room request to API
+    def delete_room(self,data):
+        try:
+            r = requests.post(API_URL + 'delete-room',
+                {
+                    'roomID': data['roomID']
+                }
+            )
             self.send_json({
                 'response': r.json()['message']
                 })
@@ -99,7 +113,7 @@ class ChatConsumer(JsonWebsocketConsumer):
             'author': message.author,
             'content': message.content,
             'roomID': message.room,
-            'time': str(message.time)
+            'time': message.time
         }
 
     # connect to chat
@@ -128,7 +142,8 @@ class ChatConsumer(JsonWebsocketConsumer):
         'new_message': new_message,
         'new_member': new_member,
         'search_user': search_user,
-        'create_room': create_room
+        'create_room': create_room,
+        'delete_room': delete_room
     }
 
     # receive message from WebSocket
