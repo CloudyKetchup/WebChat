@@ -6,7 +6,7 @@ Backend communicate with API builded with nodejs that handle all database work.
 
 # Screenshot
 ![Alt text](screenshots/chat.png?raw=true)
-#What i used:
+# What i used:
     - Python for backend
     - javascript for API
     - MongoDB database
